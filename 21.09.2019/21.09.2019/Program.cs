@@ -6,11 +6,44 @@ using System.Threading.Tasks;
 
 namespace _21._09._2019
 {
+
+    class Calculator
+    {
+        public static float Add(float a, float b)
+        {
+            return a + b;
+        }
+
+        public static float Sub(float a, float b)
+        {
+            return a - b;
+        }
+
+        public static float Div(float a, float b)
+        {
+
+            if(b == 0)
+            {
+                throw new Exception("Div on 0");
+            }
+
+            return a / b;
+        }
+
+        public static float Mul(float a, float b)
+        {
+            return a * b;
+        }
+    }
+
     public struct Worker
     {
-        public string name { get; set; }
-        public string position { get; set; }
-        public int year
+        private int year;
+        
+        public string Name { get; set; }
+        public string Position { get; set; }
+       
+        public int Year
         {
             get
             {
@@ -18,13 +51,14 @@ namespace _21._09._2019
             }
             set
             {
-                if (value < 1950 && value > 2020)
+                if (value > 1950 && value < 2020)
                 {
-                    throw new Exception();
+                    this.year = value;
+                    
                 }
                 else
                 {
-                    this.year = value;
+                    throw new Exception("Year is bad");
                 }
             }
         }
@@ -33,32 +67,39 @@ namespace _21._09._2019
     class Program
     {
 
-
-
         static void Main(string[] args)
         {
+            try
+            {
+                Calculator.Div(1, 0);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: " +e.Message);
+            }
+
             DateTime now = new DateTime();
 
             Worker[] worker = new Worker[5];
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 3; i++)
             {
-                Console.WriteLine("Worker: " + i);
+                Console.WriteLine("Worker: " + (i+1));
 
                 Console.WriteLine("Please enter name:");
-                worker[i].name = Console.ReadLine();
+                worker[i].Name = Console.ReadLine();
 
                 Console.WriteLine("Please enter position:");
-                worker[i].position = Console.ReadLine();
+                worker[i].Position = Console.ReadLine();
 
                 Console.WriteLine("Please enter year of employment.:");
                 try
                 {
-                    worker[i].year = Convert.ToInt32(Console.ReadLine());
+                    worker[i].Year = Convert.ToInt32(Console.ReadLine());
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Bad year");
+                    Console.WriteLine($"Ошибка: {e.Message}");
                 }
             }
 
@@ -67,9 +108,9 @@ namespace _21._09._2019
 
             for (int i = 0; i < 5; i++)
             {
-                if (now.Year - worker[i].year > experienceYear)
+                if (now.Year - worker[i].Year > experienceYear)
                 {
-                    Console.WriteLine($"Worker: {worker[i].name}");
+                    Console.WriteLine($"Worker: {worker[i].Name}");
                 }
             }
         }
