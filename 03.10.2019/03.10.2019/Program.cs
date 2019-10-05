@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,8 +10,15 @@ namespace _03._10._2019
 
     class OpArray
     {
+        int[] arr;
 
-        private static bool isSimple(int number)
+        public OpArray(ref int[] numbers)
+        {
+            arr = numbers;
+        }
+
+
+        private bool isSimple(int number)
         {
 
             for (int i = 2; i < 10; i++)
@@ -22,7 +30,7 @@ namespace _03._10._2019
 
         }
 
-        public static int CountNegativeNumbers(int[] arr)
+        public int CountNegativeNumbers()
         {
             int count = 0;
 
@@ -34,7 +42,7 @@ namespace _03._10._2019
             return count;
         }
 
-        public static int CountSimpleNumbers(int[] arr)
+        public int CountSimpleNumbers()
         {
             int count = 0;
 
@@ -46,7 +54,7 @@ namespace _03._10._2019
             return count;
         }
 
-        public static int SumAll(int[] arr)
+        public int SumAll()
         {
             int sum = 0;
 
@@ -58,7 +66,7 @@ namespace _03._10._2019
             return sum;
         }
 
-        public static void ConvertNegativeToNull(ref int[] arr)
+        public void ConvertNegativeToNull()
         {
             for (int i = 0; i < arr.Length; i++)
             {
@@ -69,12 +77,12 @@ namespace _03._10._2019
             }   
         }
 
-        public static void SortToUp(ref int[] arr)
+        public void SortToUp()
         {
             Array.Sort(arr);
         }
 
-        public static void DoubleElementsToFront(ref int[] arr)
+        public void DoubleElementsToFront()
         {
 
             List<int> newarr = new List<int>();
@@ -94,43 +102,95 @@ namespace _03._10._2019
             arr = newarr.ToArray();
         }
 
+        public int[] GetNumbers()
+        {
+            return arr;
+        }
+
+        public void Menu()
+        {
+            Console.WriteLine("1 - calculation");
+            Console.WriteLine("2 - edit");
+        }
+
+        public void MenuEdit()
+        {
+            Console.WriteLine("Edit func:");
+            Console.WriteLine("1 - Convert Negative Numbers to 0");
+            Console.WriteLine("2 - Sort To Up");
+            Console.WriteLine("3 - Double Value To Start");
+        }
+
+        public void MenuCalc()
+        {
+            Console.WriteLine("Calc func:");
+            Console.WriteLine("1 - Count Negative Numbers");
+            Console.WriteLine("2 - Count Simple Numbers");
+            Console.WriteLine("3 - Sum All Numbers");
+        }
     }
 
 
     class Program
     {
+        public delegate void Edits();
+        public delegate int Calcs();
+        public delegate void Menu();
+
         static void Main(string[] args)
         {
-
+      
             int[] numbers = new int[] { 1, 5, 0, 4, -9, 4, -12, 7, -12, 3, -2, 5};
+
             Console.WriteLine(string.Join(" ", numbers));
 
-            Console.OutputEncoding = Encoding.UTF8;
+            OpArray oa = new OpArray(ref numbers);
 
-            Console.WriteLine("1 - calculation");
-            Console.WriteLine("2 - edit");
+            Edits[] ed = new Edits[]
+            {
+                oa.ConvertNegativeToNull,
+                oa.SortToUp,
+                oa.DoubleElementsToFront
+            };
 
-            //OpArray.ConvertNegativeToNull(ref numbers);
-            //OpArray.SortToUp(ref numbers);
-            //OpArray.DoubleElementsToFront(ref numbers);
-            Console.WriteLine(string.Join(" ", numbers));
+            Calcs[] ca = new Calcs[]
+            {
+                oa.CountNegativeNumbers,
+                oa.CountSimpleNumbers,
+                oa.SumAll
+            };
 
+            Menu[] m = new Menu[]
+            {
+                oa.Menu,
+                oa.MenuCalc,
+                oa.MenuEdit
+            };
 
+            
 
+            m[0]();
 
+            int cat = Convert.ToInt32(Console.ReadLine());
 
+            m[cat]();
 
+            int sub = Convert.ToInt32(Console.ReadLine());
 
-            // Я ДОРОБЛЮ ДОМАШКУ ДО 06.10.19 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            switch (cat)
+            {
+                case 1:
+                    Console.WriteLine(ca[sub - 1]());
+                    break;
 
+                case 2:
+                    ed[sub - 1]();
+                    Console.WriteLine(string.Join(" ", oa.GetNumbers()));
+                    break;
 
-
-
-
-
-
-
-            int action = Convert.ToInt32(Console.ReadLine());
+                default:
+                    break;
+            }
         }
     }
 }
