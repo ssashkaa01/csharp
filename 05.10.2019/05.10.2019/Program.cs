@@ -7,26 +7,31 @@ using System.Threading.Tasks;
 
 namespace _05._10._2019
 {
-    class Karti
+    class Cards
     {
         Queue<int> q;
 
-        public Karti()
+        public Cards()
         {
             q = new Queue<int>();
 
             for (int i = 1; i <= 36; i++)
             {
-                q.Enqueue(1);
+                q.Enqueue(i);
             }
 
-            Console.WriteLine("Karti completed!");
+            Console.WriteLine("Cards ready!");
         }
 
+        public void GetPlayerCards()
+        {
+                 
+        }
 
-            
+        public void MixCards()
+        {
 
-     
+        }
     }
 
     class Program
@@ -115,6 +120,8 @@ namespace _05._10._2019
             метод роздачі по 6 штук за раз, перемішування колоди і тд.
              */
 
+            //Cards c = new Cards();
+           
         }
     }
 }
